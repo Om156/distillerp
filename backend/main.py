@@ -11,6 +11,7 @@ from app.models import User, Production, Sales, Expense, Settings as SettingsMod
 from app.models.login_log import LoginLog
 from app.models.backup_schedule import BackupSchedule
 from app.routers import auth, production, sales, expenses, dashboard, reports, backup
+from app.services.bootstrap import ensure_initial_superadmin
 from app.services.backup import run_scheduled_backups
 from app.core.database import SessionLocal
 
@@ -42,6 +43,11 @@ async def backup_scheduler():
 async def lifespan(app: FastAPI):
     # Startup
     Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    try:
+        ensure_initial_superadmin(db)
+    finally:
+        db.close()
     asyncio.create_task(backup_scheduler())
     yield
     # Shutdown

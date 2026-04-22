@@ -15,10 +15,16 @@ class Settings(BaseSettings):
     MAX_LOGIN_ATTEMPTS: int = 5
     LOCKOUT_MINUTES: int = 15
     BACKUP_PATH: str = "./backups"
+    RENDER_EXTERNAL_URL: str | None = None
+    INITIAL_SUPERADMIN_EMAIL: str | None = None
+    INITIAL_SUPERADMIN_PASSWORD: str | None = None
+    INITIAL_SUPERADMIN_NAME: str = "Test Super Admin"
 
     @property
     def origins_list(self):
         origins = [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
+        if self.RENDER_EXTERNAL_URL:
+            origins.append(self.RENDER_EXTERNAL_URL.rstrip("/"))
         return origins or ["http://localhost:5173"]
 
     @property

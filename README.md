@@ -77,3 +77,7 @@ Change the seeded default passwords immediately after the first login.
 - If Railway gives you a Postgres variable under a different name, the backend also accepts `DATABASE_PRIVATE_URL`, `POSTGRES_URL`, or `POSTGRES_PRIVATE_URL`.
 - The backup directory is inside the container by default. Attach a Railway volume and set `BACKUP_PATH` to the mounted path if backups must survive redeploys.
 - For separate frontend/backend services, set `VITE_API_URL` to the backend public URL during the frontend build and set `ALLOWED_ORIGINS` to the frontend public URL.
+
+## Render Backend Testing
+
+For a backend-only test deploy on Render's free tier, use the root `render.yaml` Blueprint. It creates a free Python web service from `backend/` and a free Render Postgres database. See `RENDER.md` for the exact setup and free-tier caveats.
