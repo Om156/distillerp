@@ -41,7 +41,7 @@ PYTHON_VERSION=3.11.11
 DATABASE_URL=<your Render Postgres connection string>
 SECRET_KEY=<long random secret>
 ENVIRONMENT=production
-ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+ALLOWED_ORIGINS=https://distillerp.vercel.app,http://localhost:5173,http://127.0.0.1:5173
 BACKUP_PATH=/tmp/distillerp-backups
 INITIAL_SUPERADMIN_EMAIL=superadmin@distillerp.com
 INITIAL_SUPERADMIN_PASSWORD=<temporary password, 8+ chars>
@@ -54,4 +54,5 @@ INITIAL_SUPERADMIN_NAME=Test Super Admin
 - Free web service files are ephemeral, so local JSON backups in `/tmp` are only for short tests.
 - Free Render Postgres databases expire after 30 days.
 - `RENDER_EXTERNAL_URL` is automatically added to CORS origins by the backend.
+- The deployed Vercel frontend, `https://distillerp.vercel.app`, must be present in the backend service's `ALLOWED_ORIGINS`.
 - If testing from the local React frontend, keep `http://localhost:5173` in `ALLOWED_ORIGINS`.

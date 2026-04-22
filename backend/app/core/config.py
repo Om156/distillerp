@@ -1,5 +1,12 @@
+import os
+
 from pydantic_settings import BaseSettings
 from pathlib import Path
+
+IS_RENDER = os.getenv("RENDER") == "true"
+IS_RAILWAY = bool(os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("RAILWAY_PROJECT_ID"))
+ENV_FILE = None if IS_RENDER or IS_RAILWAY else Path(__file__).resolve().parent.parent.parent / ".env"
+DEFAULT_ENVIRONMENT = "production" if IS_RENDER or IS_RAILWAY else "development"
 
 class Settings(BaseSettings):
     DATABASE_URL: str | None = None
@@ -11,7 +18,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     ALLOWED_ORIGINS: str = "http://localhost:5173"
-    ENVIRONMENT: str = "development"
+    ENVIRONMENT: str = DEFAULT_ENVIRONMENT
     MAX_LOGIN_ATTEMPTS: int = 5
     LOCKOUT_MINUTES: int = 15
     BACKUP_PATH: str = "./backups"
@@ -64,7 +71,7 @@ class Settings(BaseSettings):
             )
 
     class Config:
-        env_file = Path(__file__).resolve().parent.parent.parent / ".env"
+        env_file = ENV_FILE
         env_file_encoding = "utf-8"
 
 settings = Settings()
