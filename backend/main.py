@@ -52,6 +52,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs" if settings.ENVIRONMENT == "development" else None,
     redoc_url=None,
+    lifespan=lifespan,
 )
 
 # Security middleware
