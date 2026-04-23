@@ -32,7 +32,15 @@ class Settings(BaseSettings):
         origins = [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
         if self.RENDER_EXTERNAL_URL:
             origins.append(self.RENDER_EXTERNAL_URL.rstrip("/"))
-        return origins or ["http://localhost:5173"]
+        baseline = [
+            "https://distillerp.vercel.app",
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+        ]
+        for o in baseline:
+            if o not in origins:
+                origins.append(o)
+        return origins
 
     @property
     def database_url(self) -> str:
