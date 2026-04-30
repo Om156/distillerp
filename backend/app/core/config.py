@@ -34,14 +34,14 @@ class Settings(BaseSettings):
             origins.append(self.RENDER_EXTERNAL_URL.rstrip("/"))
         baseline = [
             "https://distillerp.vercel.app",
-            "https://distillerp-kappa.vercel.app/",
+            "https://distillerp-kappa.vercel.app",
             "http://localhost:5173",
             "http://127.0.0.1:5173",
         ]
         for o in baseline:
             if o not in origins:
                 origins.append(o)
-        return origins
+        return [o.rstrip("/") for o in origins]
 
     @property
     def database_url(self) -> str:
